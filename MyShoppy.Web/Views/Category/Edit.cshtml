@@ -1,0 +1,37 @@
+﻿@using MyShoppy.Entities
+@model Category
+
+@{
+    ViewData["Title"] = "Edit";
+
+}
+<h1>Edit Category</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input asp-for="Id" hidden />
+            <div class="mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Edit</button>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-warning">Back To List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Client Side Validation Not Reload Page is Best in Performace-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
