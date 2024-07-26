@@ -1,0 +1,26 @@
+﻿@using MyShoppy.Entities
+@model Category
+
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button asp-controller="Category" asp-action="Index" class="btn btn-warning">Back To List</button>
+    </div>
+</form>
+
+<!-- Client Side Validation Not Reload Page is Best in Performace-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,23 @@
+﻿@using MyShoppy.Entities
+@model IEnumerable<Category>
+
+
+<table class="table table-hover" width="100%">
+
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Date Created</td>
+    </tr>
+    @foreach (var category in Model)
+    {
+   
+        <tr>
+            <td>@category.Name</td>
+            <td>@category.Description</td>
+            <td>@category.CreatedTime</td>
+        </tr>
+    
+    }
+</table>
+
