@@ -1,6 +1,11 @@
 ﻿@using MyShoppy.Entities
 @model Category
 
+@{
+    ViewBag.PageTitle = "Category Management";
+    ViewBag.CardTitle = "Create Category";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
 
 <form  method="post">
     <div class="mb-3">

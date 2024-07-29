@@ -42,6 +42,7 @@ namespace MyShoppy.Web.Controllers
             {
                 _applicationContext.Categories.Add(category);
                 _applicationContext.SaveChanges();
+                TempData["Create"] = "Category Added Successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -76,6 +77,7 @@ namespace MyShoppy.Web.Controllers
             {
                 _applicationContext.Categories.Update(category);
                 _applicationContext.SaveChanges();
+                TempData["Edit"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -118,6 +120,7 @@ namespace MyShoppy.Web.Controllers
             {
                 _applicationContext.Categories.Remove(categoryFromDb);
                 _applicationContext.SaveChanges();
+                TempData["Delete"] = "Category Deleted Successfully";
                 return RedirectToAction("Index");
             }
             return View();

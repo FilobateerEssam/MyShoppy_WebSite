@@ -2,11 +2,10 @@
 @model Category
 
 @{
-    ViewData["Title"] = "Edit";
-
+    ViewBag.PageTitle = "Category Management";
+    ViewBag.CardTitle = "Edit Category";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
-<h1>Edit Category</h1>
-<hr />
 
 <div class="row">
     <div class="col-md-4">
