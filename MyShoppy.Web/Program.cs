@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyShoppy.DataAccess.Data;
+using MyShoppy.DataAccess.Implementation;
+using MyShoppy.Entities.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddDbContext<ApplicationContext>(Options =>
 });
 
 
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShoppy.Web.Models;
+using MyShoppy.Entities.Models;
 using System.Diagnostics;
 
 namespace MyShoppy.Web.Controllers

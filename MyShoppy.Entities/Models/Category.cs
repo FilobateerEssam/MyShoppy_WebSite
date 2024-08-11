@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyShoppy.Entities
+namespace MyShoppy.Entities.Models
 {
     public class Category
     {

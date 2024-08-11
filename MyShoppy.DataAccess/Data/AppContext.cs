@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyShoppy.Entities;
+using MyShoppy.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

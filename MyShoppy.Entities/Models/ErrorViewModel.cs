@@ -1,4 +1,4 @@
-namespace MyShoppy.Web.Models
+namespace MyShoppy.Entities.Models
 {
     public class ErrorViewModel
     {

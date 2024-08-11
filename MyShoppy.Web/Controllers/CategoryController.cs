@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShoppy.DataAccess.Data;
-using MyShoppy.Entities;
+using MyShoppy.Entities.Models;
+using MyShoppy.Entities.Repository;
 
 namespace MyShoppy.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationContext _applicationContext;
 
-        public CategoryController(ApplicationContext applicationContext)
+
+        IUnitOfWork _unitOfWork;
+
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _applicationContext = applicationContext;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> CategoriesList = _applicationContext.Categories.ToList();
+            IEnumerable<Category> CategoriesList = _unitOfWork.Category.GetAll();
             return View(CategoriesList);
         }
 
@@ -40,8 +43,10 @@ namespace MyShoppy.Web.Controllers
             }
             if (ModelState.IsValid)
             {
-                _applicationContext.Categories.Add(category);
-                _applicationContext.SaveChanges();
+                //_applicationContext.Categories.Add(category);
+                _unitOfWork.Category.Add(category);
+                //_applicationContext.SaveChanges();
+                _unitOfWork.Complete();
                 TempData["Create"] = "Category Added Successfully";
                 return RedirectToAction("Index");
             }
@@ -59,7 +64,8 @@ namespace MyShoppy.Web.Controllers
 
             // Get Category By ID
 
-            var categoryfromDb = _applicationContext.Categories.Find(id);
+            //var categoryfromDb = _applicationContext.Categories.Find(id);
+            var categoryfromDb = _unitOfWork.Category.GetFirstorDefault(x => x.Id == id);
 
             return View(categoryfromDb);
         }
@@ -75,8 +81,10 @@ namespace MyShoppy.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _applicationContext.Categories.Update(category);
-                _applicationContext.SaveChanges();
+                //_applicationContext.Categories.Update(category);
+                _unitOfWork.Category.Update(category);
+                //_applicationContext.SaveChanges();
+                _unitOfWork.Complete();
                 TempData["Edit"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -94,7 +102,8 @@ namespace MyShoppy.Web.Controllers
 
             // Get Category By ID
 
-            var categoryfromDb = _applicationContext.Categories.Find(id);
+            //var categoryfromDb = _applicationContext.Categories.Find(id);
+            var categoryfromDb = _unitOfWork.Category.GetFirstorDefault(x => x.Id == id);
 
             return View(categoryfromDb);
         }
@@ -109,7 +118,8 @@ namespace MyShoppy.Web.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = _applicationContext.Categories.Find(id);
+            //var categoryFromDb = _applicationContext.Categories.Find(id);
+            var categoryFromDb = _unitOfWork.Category.GetFirstorDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -118,8 +128,10 @@ namespace MyShoppy.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _applicationContext.Categories.Remove(categoryFromDb);
-                _applicationContext.SaveChanges();
+                //_applicationContext.Categories.Remove(categoryFromDb);
+                _unitOfWork.Category.Remove(categoryFromDb);
+                //_applicationContext.SaveChanges();
+                _unitOfWork.Complete();
                 TempData["Delete"] = "Category Deleted Successfully";
                 return RedirectToAction("Index");
             }
