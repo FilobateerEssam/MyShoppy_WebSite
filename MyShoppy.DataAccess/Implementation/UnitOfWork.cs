@@ -12,12 +12,14 @@ namespace MyShoppy.DataAccess.Implementation
     {
         private readonly ApplicationContext _context;
         public ICategoryRepo Category { get; private set; }
+        public IProductRepo Product { get; private set; }
 
 
         public UnitOfWork(ApplicationContext context)
         {
             _context = context;
             Category = new CategoryRepo(context);
+            Product = new ProductRepo(context);
         }
 
 

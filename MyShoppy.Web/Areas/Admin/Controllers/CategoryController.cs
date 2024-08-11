@@ -3,8 +3,9 @@ using MyShoppy.DataAccess.Data;
 using MyShoppy.Entities.Models;
 using MyShoppy.Entities.Repository;
 
-namespace MyShoppy.Web.Controllers
+namespace MyShoppy.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
 

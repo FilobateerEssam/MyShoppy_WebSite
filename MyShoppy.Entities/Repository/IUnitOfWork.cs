@@ -10,6 +10,7 @@ namespace MyShoppy.Entities.Repository
     public interface IUnitOfWork : IDisposable
     {
         ICategoryRepo Category { get; }
+        IProductRepo Product { get; }
 
         int Complete();
     }

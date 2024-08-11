@@ -14,6 +14,7 @@ namespace MyShoppy.DataAccess.Data
 
         ////               Model   Table               
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> products { get; set; }
 
 
 
