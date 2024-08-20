@@ -189,51 +189,38 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
         }
 
 
-        [HttpGet]
+
+
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            // Check ID
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            // Get Product By ID
-
-            //var categoryfromDb = _applicationContext.Categories.Find(id);
-            var productfromDb = _unitOfWork.Product.GetFirstorDefault(x => x.Id == id);
-
-            return View(productfromDb);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken] //Protect Web From Cross Side Forgery Attacks
-        public IActionResult DeleteProduct(int? id)
-        {
-
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            //var productfromDbFromDb = _applicationContext.Product.Find(id);
             var productFromDb = _unitOfWork.Product.GetFirstorDefault(x => x.Id == id);
 
             if (productFromDb == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Error while Deleting" });
             }
 
-            if (ModelState.IsValid)
+            _unitOfWork.Product.Remove(productFromDb);
+
+            // Delete the old image if it exists
+            if (!string.IsNullOrEmpty(productFromDb.ImageUrl))
             {
-                //_applicationContext.Categories.Remove(categoryFromDb);
-                _unitOfWork.Product.Remove(productFromDb);
-                //_applicationContext.SaveChanges();
-                _unitOfWork.Complete();
-                TempData["Delete"] = "Product Deleted Successfully";
-                return RedirectToAction("Index");
+                var oldImagePath = Path.Combine(_webHostingEnvironment.WebRootPath, productFromDb.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
             }
-            return View();
+
+            _unitOfWork.Complete();
+            return Json(new { success = true, message = "file has been Deleted" });
         }
+
     }
 }
