@@ -28,6 +28,7 @@ namespace MyShoppy.DataAccess.Implementation
                 ProductInDB.Description = product.Description;
                 ProductInDB.Price = product.Price;
                 ProductInDB.ImageUrl = product.ImageUrl;
+                ProductInDB.CategoryId = product.CategoryId;
             }
         }
 

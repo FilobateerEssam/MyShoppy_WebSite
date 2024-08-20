@@ -24,8 +24,13 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> ProductsList = _unitOfWork.Product.GetAll();
-            return View(ProductsList);
+
+            return View();
+        }
+        public IActionResult GetData()
+        {
+            var products = _unitOfWork.Product.GetAll(IncludeWord: "Category");
+            return Json(new { data = products });
         }
 
         [HttpGet]
@@ -58,17 +63,35 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
 
                 if (file != null)
                 {
-                    string filename = Guid.NewGuid().ToString();
-                    var uploads = Path.Combine(webRootPath, @"Images\products");
+                    // Get the original filename without extension
+                    string originalFilename = Path.GetFileNameWithoutExtension(file.FileName);
+
+                    // Get the extension of the file
                     var ext = Path.GetExtension(file.FileName);
 
-                    using (var fileStream = new FileStream(Path.Combine(uploads, filename + ext), FileMode.Create))
+                    // Get the date of the day after today
+                    // string dateTomorrow = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
+                    string dateTomorrow = DateTime.Now.ToString("yyyy-MM-dd");
+
+                    // Combine the original filename with the date
+                    string filename = $"{originalFilename}_{dateTomorrow}";
+
+                    // Define the upload path
+                    var uploads = Path.Combine(webRootPath, @"Images\products");
+
+                    // Create the full path with the new filename
+                    var filePath = Path.Combine(uploads, filename + ext);
+
+                    // Save the file
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
+                    // Set the ImageUrl property
                     productVM.Product.ImageUrl = @"Images\products\" + filename + ext;
                 }
+
 
                 //_applicationContext.Product.Add(product);
                 _unitOfWork.Product.Add(productVM.Product);
@@ -92,31 +115,79 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
             // Get Product By ID
 
             //var productfromDb = _applicationContext.Product.Find(id);
-            var productfromDb = _unitOfWork.Product.GetFirstorDefault(x => x.Id == id);
 
-            return View(productfromDb);
+            ProductVM productVM = new ProductVM()
+            {
+                Product = _unitOfWork.Product.GetFirstorDefault(x => x.Id == id),
+                CategoryList = _unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                })
+            };
+            return View(productVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken] //Protect Web From Cross Side Forgery Attacks
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(ProductVM productVM, IFormFile? file)
         {
-            if (product.Description == null)
+            if (productVM.Product.Description == null)
             {
-                product.Description = " ";
+                productVM.Product.Description = " ";
             }
-
             if (ModelState.IsValid)
             {
-                //_applicationContext.Product.Update(product);
-                _unitOfWork.Product.Update(product);
-                //_applicationContext.SaveChanges();
+                string webRootPath = _webHostingEnvironment.WebRootPath;
+
+                if (file != null)
+                {
+                    // Get the original filename without extension
+                    string originalFilename = Path.GetFileNameWithoutExtension(file.FileName);
+
+                    // Get the extension of the file
+                    var ext = Path.GetExtension(file.FileName);
+
+                    // Get the date of the day after today
+                    string dateTomorrow = DateTime.Now.ToString("yyyy-MM-dd");
+
+                    // Combine the original filename with the date
+                    string filename = $"{originalFilename}_{dateTomorrow}";
+
+                    // Define the upload path
+                    var uploads = Path.Combine(webRootPath, @"Images\products");
+
+                    // Create the full path with the new filename
+                    var filePath = Path.Combine(uploads, filename + ext);
+
+                    // Delete the old image if it exists
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(webRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    // Save the new file
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    // Set the ImageUrl property
+                    productVM.Product.ImageUrl = @"Images\products\" + filename + ext;
+                }
+
+                _unitOfWork.Product.Update(productVM.Product);
                 _unitOfWork.Complete();
                 TempData["Edit"] = "Product Updated Successfully";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(productVM.Product);
         }
+
 
         [HttpGet]
         public IActionResult Delete(int? id)
