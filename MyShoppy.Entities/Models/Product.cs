@@ -21,6 +21,7 @@ namespace MyShoppy.Entities.Models
         public string ImageUrl { get; set; }
 
         [Required]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         // Relattion one to many

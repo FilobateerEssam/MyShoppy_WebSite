@@ -47,7 +47,10 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken] //Protect Web From Cross Side Forgery Attacks
         public IActionResult Create(ProductVM productVM, IFormFile file)
         {
-
+            if (productVM.Product.Description == null)
+            {
+                productVM.Product.Description = " ";
+            }
             if (ModelState.IsValid)
             {
 
