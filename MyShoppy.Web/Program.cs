@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MyShoppy.DataAccess.Data;
 using MyShoppy.DataAccess.Implementation;
 using MyShoppy.Entities.Repository;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<ApplicationContext>(Options =>
 {
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationContext>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -33,6 +36,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
