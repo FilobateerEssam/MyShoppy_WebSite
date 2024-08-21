@@ -50,11 +50,12 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken] //Protect Web From Cross Side Forgery Attacks
-        public IActionResult Create(ProductVM productVM, IFormFile file)
+        public IActionResult Create(ProductVM productVM, IFormFile? file)
         {
-            if (productVM.Product.Description == null)
+            if (productVM.Product.Description == null && productVM.Product.ImageUrl == null)
             {
                 productVM.Product.Description = " ";
+                productVM.Product.ImageUrl = " ";
             }
             if (ModelState.IsValid)
             {
@@ -132,9 +133,10 @@ namespace MyShoppy.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken] //Protect Web From Cross Side Forgery Attacks
         public IActionResult Edit(ProductVM productVM, IFormFile? file)
         {
-            if (productVM.Product.Description == null)
+            if (productVM.Product.Description == null && productVM.Product.ImageUrl == null)
             {
                 productVM.Product.Description = " ";
+                productVM.Product.ImageUrl = " ";
             }
             if (ModelState.IsValid)
             {
