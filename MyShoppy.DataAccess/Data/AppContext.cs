@@ -10,13 +10,14 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MyShoppy.DataAccess.Data
 {
-    public class ApplicationContext : IdentityDbContext
+    public class ApplicationContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
         ////               Model   Table               
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> products { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
 
 
@@ -41,6 +42,13 @@ namespace MyShoppy.DataAccess.Data
             {
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
             });
+
+
+            modelBuilder.Entity<IdentityUser>()
+            .HasDiscriminator<string>("Discriminator")
+            .HasValue<IdentityUser>("IdentityUser")
+            .HasValue<ApplicationUser>("AppContext");
+
         }
 
     }

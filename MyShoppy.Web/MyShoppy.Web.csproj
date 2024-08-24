@@ -26,6 +26,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MyShoppy.DataAccess\MyShoppy.DataAccess.csproj" />
+		<ProjectReference Include="..\MyShoppy.Utitlites\MyShoppy.Utitlites.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

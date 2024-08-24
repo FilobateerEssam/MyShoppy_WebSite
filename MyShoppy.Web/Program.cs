@@ -3,6 +3,8 @@ using MyShoppy.DataAccess.Data;
 using MyShoppy.DataAccess.Implementation;
 using MyShoppy.Entities.Repository;
 using Microsoft.AspNetCore.Identity;
+using MyShoppy.Utitlites;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +17,10 @@ builder.Services.AddDbContext<ApplicationContext>(Options =>
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationContext>();
 
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyShoppy.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyShoppy.DataAccess.Data;
 namespace MyShoppy.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240824124737_trysolveerr")]
+    partial class trysolveerr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +79,8 @@ namespace MyShoppy.DataAccess.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -223,21 +226,21 @@ namespace MyShoppy.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = new DateTime(2024, 8, 14, 15, 57, 5, 957, DateTimeKind.Local).AddTicks(8078),
+                            CreatedTime = new DateTime(2024, 8, 14, 15, 47, 36, 626, DateTimeKind.Local).AddTicks(8166),
                             Description = "",
                             Name = "Phones"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedTime = new DateTime(2024, 8, 15, 15, 57, 5, 957, DateTimeKind.Local).AddTicks(8083),
+                            CreatedTime = new DateTime(2024, 8, 15, 15, 47, 36, 626, DateTimeKind.Local).AddTicks(8171),
                             Description = "",
                             Name = "Laptops"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedTime = new DateTime(2024, 8, 16, 15, 57, 5, 957, DateTimeKind.Local).AddTicks(8087),
+                            CreatedTime = new DateTime(2024, 8, 16, 15, 47, 36, 626, DateTimeKind.Local).AddTicks(8175),
                             Description = "",
                             Name = "Electronics"
                         });
@@ -291,7 +294,7 @@ namespace MyShoppy.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("AppContext");
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("MyShoppy.Entities.Models.Product", b =>
