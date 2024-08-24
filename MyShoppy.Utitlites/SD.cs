@@ -10,9 +10,9 @@ namespace MyShoppy.Utitlites
     // 2. Make Class For Roles
     public static class SD
     {
-        public static string AdminRole = "Admin";
-        public static string EditorRole = "Editor";
-        public static string CustomerRole = "Customer";
+        public const string AdminRole = "Admin";
+        public const string EditorRole = "Editor";
+        public const string CustomerRole = "Customer";
 
     }
 }

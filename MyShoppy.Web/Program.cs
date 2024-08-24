@@ -19,6 +19,7 @@ builder.Services.AddDbContext<ApplicationContext>(Options =>
 
 // 4. Add Identity Service
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
+    .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationContext>();
 
 // 5. Add Email Sender Service 
