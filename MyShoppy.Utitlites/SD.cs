@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyShoppy.Utitlites
 {
+
+    // 2. Make Class For Roles
     public static class SD
     {
         public static string AdminRole = "Admin";

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MyShoppy.Entities.Models;
 using MyShoppy.Utitlites;
 
 namespace MyShoppy.Web.Areas.Identity.Pages.Account
@@ -38,6 +39,8 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
+
+            // 1. Add RoleManager
             RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -46,6 +49,8 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            // 1. Add RoleManager
             _roleManager = roleManager;
         }
 
@@ -78,6 +83,15 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+
+            // 6. ADD ApplicationUser Properties
+            [Required]
+            public string FullName { get; set; }
+            public string Address { get; set; }
+            public string City { get; set; }
+
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -106,7 +120,7 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-
+            // 3. Add Roles From Class SD we made
             if (!_roleManager.RoleExistsAsync(SD.AdminRole).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.AdminRole)).GetAwaiter().GetResult();
@@ -128,11 +142,22 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                //6. ADD ApplicationUser Properties
+                user.FullName = Input.FullName;
+                user.Address = Input.Address;
+                user.City = Input.City;
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // 7. Add Customer Rule Role To New User
+                    await _userManager.AddToRoleAsync(user, SD.CustomerRole);
+
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -166,11 +191,12 @@ namespace MyShoppy.Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        // 8. Add Customer Rule Role To New User
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {

@@ -17,8 +17,11 @@ builder.Services.AddDbContext<ApplicationContext>(Options =>
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// 4. Add Identity Service
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationContext>();
+
+// 5. Add Email Sender Service 
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 

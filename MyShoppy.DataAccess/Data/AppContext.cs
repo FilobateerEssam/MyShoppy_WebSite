@@ -47,7 +47,7 @@ namespace MyShoppy.DataAccess.Data
             modelBuilder.Entity<IdentityUser>()
             .HasDiscriminator<string>("Discriminator")
             .HasValue<IdentityUser>("IdentityUser")
-            .HasValue<ApplicationUser>("AppContext");
+            .HasValue<ApplicationUser>("ApplicationUser");
 
         }
 
