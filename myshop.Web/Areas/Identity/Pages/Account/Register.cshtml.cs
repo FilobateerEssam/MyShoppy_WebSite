@@ -120,7 +120,7 @@ namespace myshop.Web.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(SD.EditorRole)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.CustomerRole)).GetAwaiter().GetResult();
             }
-            
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -179,7 +179,7 @@ namespace myshop.Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        
+
                     }
                 }
                 foreach (var error in result.Errors)
