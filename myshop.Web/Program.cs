@@ -26,6 +26,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
@@ -52,6 +54,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
+
+
 
 app.MapRazorPages();
 app.MapControllerRoute(

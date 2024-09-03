@@ -16,14 +16,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="~/customer/css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <body>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="/Customer/Home/Index">myShop</a>
+            <a class="navbar-brand" href="#!">myShop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -32,8 +30,7 @@
                     {
                         @if (User.IsInRole(SD.AdminRole))
                         {
-                            @* <li class="nav-item"><a class="nav-link active" href="/Admin/_Dashboard/Index">Dashboard</a></li>*@
-                            <li class="nav-item"><a class="nav-link active" href="/Admin/Users/Index">All Users</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="/Admin/Dashboard/Index">Dashboard</a></li>
                         }
                         else
                         {
@@ -50,14 +47,12 @@
                     }
                 </ul>
                 <partial name="_LoginPartial" />
-                @* @if (User.Identity.IsAuthenticated)
-                { *@
+               
                     <form class="d-flex">
                         <a href="/Customer/Cart/Index" class="btn btn-outline-dark">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-
+                            @await Component.InvokeAsync("ShoppingCart")
                             @* @if (httpContextAccessor.HttpContext.Session.GetInt32(SD.SessionKey) != null)
                         {
                         <span class="badge bg-dark text-white ms-1 rounded-pill">
@@ -66,11 +61,12 @@
                         }
                         else
                         {
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                         } *@
 
                         </a>
                     </form>
-                @* } *@
+                
 
 
             </div>
@@ -93,6 +89,8 @@
     </footer>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Core theme JS-->
     <script src="~/customer/js/scripts.js"></script>
     @await RenderSectionAsync("Scripts", required: false)

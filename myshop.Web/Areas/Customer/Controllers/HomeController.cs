@@ -66,10 +66,15 @@ namespace myshop.Web.Areas.Customer.Controllers
             if (cartobj == null)
             {
                 _unitofwork.ShoppingCart.Add(shoppingCart);
+                _unitofwork.Complete();
+                HttpContext.Session.SetInt32(SD.SessionKey, _unitofwork.ShoppingCart.GetAll(u => u.ApplicationUserId == shoppingCart.ApplicationUserId).ToList().Count);
+
             }
             else
             {
                 _unitofwork.ShoppingCart.IncreaseCount(cartobj, shoppingCart.Count);
+                _unitofwork.Complete();
+
             }
 
             _unitofwork.Complete();
