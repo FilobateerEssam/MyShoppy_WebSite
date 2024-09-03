@@ -16,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+builder.Services.Configure<StripeData>(builder.Configuration.GetSection("stripe"));
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
     options => options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(4)
     ).AddDefaultTokenProviders().AddDefaultUI()

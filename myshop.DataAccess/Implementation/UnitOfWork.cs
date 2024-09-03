@@ -18,6 +18,8 @@ namespace myshop.DataAccess.Implementation
 
         public IOrderDetailRepository OrderDetail { get; private set; }
 
+        public IApplicationUserRepository ApplicationUser { get; private set; }
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -26,6 +28,7 @@ namespace myshop.DataAccess.Implementation
             ShoppingCart = new ShoppingCartRepository(context);
             OrderHeader = new OrderHeaderRepository(context);
             OrderDetail = new OrderDetailsRepository(context);
+            ApplicationUser = new ApplicationUserRepository(context);
 
         }
 

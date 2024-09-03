@@ -2,6 +2,7 @@
 using myshop.DataAccess;
 using myshop.Entities.Models;
 using myshop.Entities.Repositories;
+using myshop.Entities.ViewModels;
 
 namespace myshop.Web.Areas.Admin.Controllers
 {
@@ -33,6 +34,8 @@ namespace myshop.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Strip HTML tags from the description
+                category.Description = Category.StripHtmlTags(category.Description);
                 //_context.Categories.Add(category);
                 _unitOfWork.Category.Add(category);
                 //_context.SaveChanges();
@@ -63,6 +66,8 @@ namespace myshop.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Strip HTML tags from the description
+                category.Description = Category.StripHtmlTags(category.Description);
                 //_context.Categories.Update(category);
 
                 _unitOfWork.Category.Update(category);

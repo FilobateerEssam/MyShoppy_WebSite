@@ -18,7 +18,7 @@ namespace myshop.Entities.Models
         [ForeignKey("ProductId")]
         [ValidateNever]
         public Product Product { get; set; }
-        [Range(1, 1000 ,ErrorMessage ="Count Must be from 1 to 1000")]
+        [Range(1, 1000, ErrorMessage = "Count Must be from 1 to 1000")]
         public int Count { get; set; }
 
         public string ApplicationUserId { get; set; }
@@ -27,6 +27,8 @@ namespace myshop.Entities.Models
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
         [Display(Name = "Created Time")]
+
+        public DateTime CreatedTime { get; set; }
         public string FormattedCreatedTime { get; set; }
 
         public string GetFormattedCreatedTime()

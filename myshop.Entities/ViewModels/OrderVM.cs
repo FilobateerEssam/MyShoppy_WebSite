@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace myshop.Entities.ViewModels
 {
-    public class ShoppingCartVM
+    public class OrderVM
     {
-        public IEnumerable<ShoppingCart> CartList { get; set; }
         public OrderHeader OrderHeader { get; set; }
-
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
     }
 }
