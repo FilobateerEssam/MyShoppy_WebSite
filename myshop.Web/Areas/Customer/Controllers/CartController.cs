@@ -141,6 +141,7 @@ namespace myshop.Web.Areas.Customer.Controllers
             Session session = service.Create(options);
             ShoppingCartVM.OrderHeader.SessionId = session.Id;
             ShoppingCartVM.OrderHeader.PaymentIntentId = session.PaymentIntentId;
+            ShoppingCartVM.OrderHeader.PaymentDate = DateTime.Now;
 
             _unitOfWork.Complete();
 
